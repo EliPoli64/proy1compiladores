@@ -1,17 +1,17 @@
 import java_cup.runtime.*;
 
 parser code {:
-    public Parser(LexerProyUno s) {
+    public parser(LexerProyUno s) {
         super(s);
     }
 :}
 
 terminal SEMI, COMMA, ASSIGN, PLUS, MINUS, TIMES, DIV_INT, DIV_FLOAT, MOD, POW, INC, DEC;
 terminal LT, LE, GT, GE, EQ, NE, AND, OR, NOT;
-terminal LPAREN, RPAREN, LBRACKET, RBRACKET, ENDL;
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, ENDL, COLON;
 
 terminal NAVIDAD, COAL, GIFT, WORLD, LOCAL, INT, FLOAT, BOOL, CHAR, STRING, VOID;
-terminal SHOW, GET, DECIDE, OF, ELSE, END, LOOP, EXIT, WHEN, FOR, RETURN, BREAK;
+terminal SHOW, GET, DECIDE, OF, ELSE, END, LOOP, EXIT, WHEN, FOR, RETURN, BREAK, TO;
 
 terminal Integer INTEGER_LITERAL;
 terminal Double FLOAT_LITERAL;

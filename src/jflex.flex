@@ -23,7 +23,6 @@ import java_cup.runtime.*;
   }
 %}
 
-LineTerminator = "endl"
 WhiteSpace     = [ \t\f\r\n]
 
 /* comments */
@@ -34,6 +33,10 @@ MultiLineCommentEnd     = э
 IntegerLiteral    = 0|[1-9][0-9]*
 FloatLiteral      = [0-9]+"."[0-9]+
 BooleanLiteral    = true|false
+LabelLiteral      = {IntegerLiteral}":"
+FloatLabel        = {FloatLiteral}":"
+IdentLabel        = {Identificador}":"
+BooleanLabel      = {BooleanLiteral}":"
 
 Identificador     = [a-zA-Z_][a-zA-Z0-9_]*
 
@@ -61,9 +64,37 @@ Identificador     = [a-zA-Z_][a-zA-Z0-9_]*
   {IntegerLiteral}    { return symbol(sym.INTEGER_LITERAL, Integer.parseInt(yytext())); }
   {FloatLiteral}      { return symbol(sym.FLOAT_LITERAL, Double.parseDouble(yytext())); }
   {BooleanLiteral}    { return symbol(sym.BOOLEAN_LITERAL, Boolean.parseBoolean(yytext())); }
+  
+  /* operadores y simbolos */
+  ":"                 { return symbol(sym.COLON); }
+  "¿"                 { return symbol(sym.LPAREN); }
+  "?"                 { return symbol(sym.RPAREN); }
+  "+"                 { return symbol(sym.PLUS); }
+  "-"                 { return symbol(sym.MINUS); }
+  "*"                 { return symbol(sym.TIMES); }
+  "//"                { return symbol(sym.DIV_INT); }
+  "/"                 { return symbol(sym.DIV_FLOAT); }
+  "%"                 { return symbol(sym.MOD); }
+  "^"                 { return symbol(sym.POW); }
+  "++"                { return symbol(sym.INC); }
+  "--"                { return symbol(sym.DEC); }
+  "<"                 { return symbol(sym.LT); }
+  "<="                { return symbol(sym.LE); }
+  ">"                 { return symbol(sym.GT); }
+  ">="                { return symbol(sym.GE); }
+  "=="                { return symbol(sym.EQ); }
+  "!="                { return symbol(sym.NE); }
+  "@"                 { return symbol(sym.AND); }
+  "~"                 { return symbol(sym.OR); }
+  "Σ"                 { return symbol(sym.NOT); }
+  "="                 { return symbol(sym.ASSIGN); }
+  ","                 { return symbol(sym.COMMA); }
+  "¡"                 { return symbol(sym.LBRACKET); }
+  "!"                 { return symbol(sym.RBRACKET); }
+  "endl"              { return symbol(sym.ENDL); }
+
   \'                  { string.setLength(0); yybegin(CHAR); }
   \"                  { string.setLength(0); yybegin(STRING); }
-
   /* operadores y simbolos */
   "¿"             { return symbol(sym.LPAREN); }
   "?"             { return symbol(sym.RPAREN); }
@@ -89,8 +120,7 @@ Identificador     = [a-zA-Z_][a-zA-Z0-9_]*
   ","             { return symbol(sym.COMMA); }
   "¡"             { return symbol(sym.LBRACKET); }
   "!"             { return symbol(sym.RBRACKET); }
-  ":"             { return symbol(sym.COLON); }
-  {LineTerminator} { return symbol(sym.ENDL); }
+  "endl"          { return symbol(sym.ENDL); }
   
 
   /* control structures */
@@ -104,6 +134,8 @@ Identificador     = [a-zA-Z_][a-zA-Z0-9_]*
   "for"                     { return symbol(sym.FOR); }
   "return"                  { return symbol(sym.RETURN); }
   "break"                   { return symbol(sym.BREAK); }
+  "to"                      { return symbol(sym.TO); }
+  "local"                   { return symbol(sym.LOCAL); }
 
   /* identifiers */ 
   {Identificador}                   { return symbol(sym.IDENTIFIER); }
@@ -119,7 +151,7 @@ Identificador     = [a-zA-Z_][a-zA-Z0-9_]*
 <MULTILINECOMMENT> {
   {MultiLineCommentEnd}   { yybegin(YYINITIAL); }
   . | [^э]                   { /* ignore */ }
-  {LineTerminator}    { /* ignore */ }
+  "endl"                  { /* ignore */ }
   <<EOF>>                    { 
                                System.err.println("Error, no fue cerrado el comentario"); 
                                yybegin(YYINITIAL); 
