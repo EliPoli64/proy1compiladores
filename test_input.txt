@@ -1,0 +1,13 @@
+// Valid code example
+int edad = 18
+string nombre = "Juan"
+if (edad >= 18)
+    show("Mayor de edad")
+end
+
+// Lexical errors (Panic Mode Test)
+int @badvar = 1
+char c = 'a
+float f = 12.
+# invalid char
+$ another invalid
