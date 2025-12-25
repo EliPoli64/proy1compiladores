@@ -1,11 +1,13 @@
 | ===========================================
 | PROGRAMA: SISTEMA DE VENTAS NAVIDEÑAS
 | ===========================================
+
 | Variables globales
 world int total_ventas = 0 endl
 world float impuesto = 0.16 endl
 world char¡3, 10! categorias endl
 world int¡2, 5! stock_productos endl
+
 
 | Función para calcular precio con impuesto
 gift float calcularPrecioFinal ¿float precio_base? ¡
@@ -13,103 +15,94 @@ gift float calcularPrecioFinal ¿float precio_base? ¡
     return precio_con_impuesto endl
 !
 
+
 | Función para verificar stock
 gift bool verificarStock ¿int id_producto, int cantidad? ¡
     local int fila = id_producto // 5 endl
     local int columna = id_producto % 5 endl
-    
+
     local int stock_actual = stock_productos¡fila, columna! endl
-    
-    decide stock_actual >= cantidad of ¡
-        true: ¡
-            show "Stock suficiente" endl
-            return true endl
-        !
-        false: ¡
-            show "Stock insuficiente" endl
-            return false endl
-        !
+
+    decide of
+    (stock_actual >= cantidad -> ¡
+        show "Stock suficiente" endl
+        return true endl
+    !)
+    (else -> ¡
+        show "Stock insuficiente" endl
+        return false endl
+    !)
     end decide endl
 !
 
+
 | Función para actualizar stock
-gift void actualizarStock ¿int id_producto, int cantidad_vendida? ¡
+gift int actualizarStock ¿int id_producto, int cantidad_vendida? ¡
     local int fila = id_producto // 5 endl
     local int columna = id_producto % 5 endl
-    
-    stock_productos¡fila, columna! = stock_productos¡fila, columna! - cantidad_vendida endl
-    
-    show "Stock actualizado para producto " endl
-    show id_producto endl
-    show "Nuevo stock: " endl
-    show stock_productos¡fila, columna! endl
+
+    stock_productos¡fila, columna! =
+        stock_productos¡fila, columna! - cantidad_vendida endl
+
+    show "Stock actualizado" endl
+    return 1 endl
 !
+
 
 | Función para procesar venta
 gift float procesarVenta ¿int id_producto, int cantidad, float precio_unitario? ¡
-    | Verificar stock
     local bool stock_ok = verificarStock ¿id_producto, cantidad? endl
-    
-    decide stock_ok of ¡
-        true: ¡
-            | Calcular subtotal
-            local float subtotal = precio_unitario * cantidad endl
-            
-            | Calcular precio final
-            local float total = calcularPrecioFinal ¿subtotal? endl
-            
-            | Actualizar total de ventas
-            total_ventas = total_ventas + cantidad endl
-            
-            | Actualizar stock
-            actualizarStock ¿id_producto, cantidad? endl
-            
-            show "Venta procesada exitosamente" endl
-            show "Total a pagar: " endl
-            show total endl
-            
-            return total endl
-        !
-        false: ¡
-            show "No se pudo procesar la venta" endl
-            return 0.0 endl
-        !
+
+    decide of
+    (stock_ok -> ¡
+        local float subtotal = precio_unitario * cantidad endl
+        local float total = calcularPrecioFinal ¿subtotal? endl
+
+        total_ventas = total_ventas + cantidad endl
+        actualizarStock ¿id_producto, cantidad? endl
+
+        show "Venta procesada exitosamente" endl
+        show total endl
+        return total endl
+    !)
+    (else -> ¡
+        show "No se pudo procesar la venta" endl
+        return 0.0 endl
+    !)
     end decide endl
 !
+
 
 | Función para mostrar reporte
-gift void mostrarReporte ¿? ¡
+gift int mostrarReporte ¿? ¡
     show "=== REPORTE DE VENTAS ===" endl
-    show "Total productos vendidos: " endl
     show total_ventas endl
-    
-    | Calcular valor total de ventas estimado
+
     local float promedio_precio = 25.50 endl
     local float ventas_totales = total_ventas * promedio_precio endl
-    local float ventas_finales = calcularPrecioFinal ¿ventas_totales? endl
-    
-    show "Valor estimado de ventas: " endl
+    local float ventas_finales =
+        calcularPrecioFinal ¿ventas_totales? endl
+
     show ventas_finales endl
-    
-    | Verificar meta de ventas
+
     local int meta_ventas = 100 endl
     local bool meta_cumplida = total_ventas >= meta_ventas endl
-    
-    decide meta_cumplida of ¡
-        true: ¡
-            show "¡Meta de ventas cumplida!" endl
-        !
-        false: ¡
-            show "Meta pendiente: " endl
-            show meta_ventas - total_ventas endl
-            show " productos por vender" endl
-        !
+
+    decide of
+    (meta_cumplida -> ¡
+        show "Meta cumplida" endl
+    !)
+    (else -> ¡
+        show meta_ventas - total_ventas endl
+    !)
     end decide endl
+
+    return 1 endl
 !
 
+
 | Función para inicializar sistema
-gift void inicializarSistema ¿? ¡
-    | Inicializar array de categorías
+gift int inicializarSistema ¿? ¡
     categorias¡0, 0! = 'J' endl
     categorias¡0, 1! = 'U' endl
     categorias¡0, 2! = 'G' endl
@@ -118,98 +111,67 @@ gift void inicializarSistema ¿? ¡
     categorias¡0, 5! = 'T' endl
     categorias¡0, 6! = 'E' endl
     categorias¡0, 7! = 'S' endl
-    
-    | Inicializar stock
+
     for i = 0 to 1 ¡
         for j = 0 to 4 ¡
-            stock_productos¡i, j! = 50 endl
+            stock_productos¡i,j! = 50 endl
         !
     ! endl
-    
+
     show "Sistema inicializado" endl
+    return 1 endl
 !
+
 
 | Procedimiento principal
 coal navidad ¿? ¡
-    | Inicializar sistema
     inicializarSistema ¿? endl
-    
-    | Simulación de ventas
+
     local int ventas_realizadas = 0 endl
     local float ingresos_totales = 0.0 endl
-    
-    loop ¡
-        show "=== MENÚ PRINCIPAL ===" endl
-        show "1. Procesar venta" endl
-        show "2. Mostrar reporte" endl
-        show "3. Salir" endl
-        show "Seleccione opción: " endl
-        
+
+    loop
         local int opcion endl
         get opcion endl
-        
-        decide opcion of ¡
-            1: ¡
-                show "Ingrese ID producto (0-9): " endl
-                local int id_producto endl
-                get id_producto endl
-                
-                show "Ingrese cantidad: " endl
-                local int cantidad endl
-                get cantidad endl
-                
-                show "Ingrese precio unitario: " endl
-                local float precio endl
-                get precio endl
-                
-                local float total_venta = procesarVenta ¿id_producto, cantidad, precio? endl
-                
-                decide total_venta > 0.0 of ¡
-                    true: ¡
-                        ingresos_totales = ingresos_totales + total_venta endl
-                        ventas_realizadas++ endl
-                        
-                        show "Ventas realizadas hoy: " endl
-                        show ventas_realizadas endl
-                        show "Ingresos totales: " endl
-                        show ingresos_totales endl
-                    !
-                    false: ¡
-                        show "Venta no realizada" endl
-                    !
-                end decide endl
-            !
-            2: ¡
-                mostrarReporte ¿? endl
-            !
-            3: ¡
-                show "Saliendo del sistema..." endl
-                exit when true endl
-            !
-            else: ¡
-                show "Opción inválida" endl
-            !
+
+        decide of
+        (opcion == 1 -> ¡
+            local int id_producto endl
+            local int cantidad endl
+            local float precio endl
+
+            get id_producto endl
+            get cantidad endl
+            get precio endl
+
+            local float total_venta =
+                procesarVenta ¿id_producto, cantidad, precio? endl
+
+            decide of
+            (total_venta > 0.0 -> ¡
+                ingresos_totales = ingresos_totales + total_venta endl
+                ++ventas_realizadas endl
+            !)
+            end decide endl
+        !)
+        (opcion == 2 -> ¡
+            mostrarReporte ¿? endl
+        !)
+        (opcion == 3 -> ¡
+            exit when true endl
+        !)
         end decide endl
-    ! end loop endl
-    
-    | Resultado final
-    show "=== RESUMEN FINAL ===" endl
-    show "Total ventas del día: " endl
-    show ventas_realizadas endl
-    show "Ingresos totales: $" endl
-    show ingresos_totales endl
-    
-    | Verificar si fue un buen día
-    local bool buen_dia = ¿ventas_realizadas > 10? @ ¿ingresos_totales > 500.0? endl
-    
-    decide buen_dia of ¡
-        true: ¡
-            show "¡Excelente día de ventas!" endl
-            return 0 endl
-        !
-        false: ¡
-            show "Día regular de ventas" endl
-            return 1 endl
-        !
+    end loop endl
+
+    local bool buen_dia =
+        ¿ventas_realizadas > 10? @ ¿ingresos_totales > 500.0? endl
+
+    decide of
+    (buen_dia -> ¡
+        return 0 endl
+    !)
+    (else -> ¡
+        return 1 endl
+    !)
     end decide endl
 !

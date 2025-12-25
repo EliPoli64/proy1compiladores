@@ -46,14 +46,14 @@ Para ejecutar el analizador, ejecute este comando:
 
 ### Sintaxis
 ```powershell
-java –jar proy1compiladores.jar <nombre del archivo a tokenizar>  
+java -jar proy1compiladores.jar <nombre del archivo a tokenizar>  
 ```
 
 ### Ejemplo de Uso
 Para analizar el archivo de prueba `test_input.txt`:
 
 ```powershell
-java –jar proy1compiladores.jar test_input.txt
+java -jar proy1compiladores.jar test_input.txt
 ```
 
 ## Salida y Resultados
