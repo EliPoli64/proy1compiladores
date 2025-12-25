@@ -1,177 +1,97 @@
-| ===========================================
-| PROGRAMA: SISTEMA DE VENTAS NAVIDEÑAS
-| ===========================================
+| ========
+| PROGRAMA
+| ========
 
-| Variables globales
-world int total_ventas = 0 endl
-world float impuesto = 0.16 endl
-world char¡3, 10! categorias endl
-world int¡2, 5! stock_productos endl
+є
+Comentario
+multilínea
+э
 
+| ---------- variables globales ----------
+world int g_entero endl
+world float g_float = 2.5 endl
+world bool g_bool = true endl
+world char g_char = 'A' endl
+world string g_string = "Hola" endl
+world int¡2,2! g_matriz endl
+world char¡1,3! g_chars = ¡ 'X','Y','Z' ! endl
 
-| Función para calcular precio con impuesto
-gift float calcularPrecioFinal ¿float precio_base? ¡
-    local float precio_con_impuesto = precio_base * ¿1.0 + impuesto? endl
-    return precio_con_impuesto endl
+| ---------- función con error ----------
+gift bool funcion1 () ¡ | error con los paréntesis
+    local int i = 0 endl
+
+    loop
+        ++i endl
+        exit when i > 3 endl
+    end loop endl
+
+    return true endl
 !
 
+| ---------- función con retorno ----------
+gift float funcionA ¿int a, float b? ¡
+    local float x = -b + a * 2 ^ 3 endl
+    ++a endl
+    --b endl
 
-| Función para verificar stock
-gift bool verificarStock ¿int id_producto, int cantidad? ¡
-    local int fila = id_producto // 5 endl
-    local int columna = id_producto % 5 endl
-
-    local int stock_actual = stock_productos¡fila, columna! endl
+    local bool r1 = a >= 10 endl
+    local bool r2 = b != 0.0 endl
+    local bool r3 = r1 @ r2 ~ false endl
 
     decide of
-    ¿stock_actual >= cantidad -> ¡
-        show "Stock suficiente" endl
-        return true endl
+    ¿r3 -> ¡
+        show "OK" endl
+        return x endl
     !?
     ¿else -> ¡
-        show "Stock insuficiente" endl
-        return false endl
-    !?
-    end decide endl
-!
-
-
-| Función para actualizar stock
-gift int actualizarStock ¿int id_producto, int cantidad_vendida? ¡
-    local int fila = id_producto // 5 endl
-    local int columna = id_producto % 5 endl
-
-    stock_productos¡fila, columna! =
-        stock_productos¡fila, columna! - cantidad_vendida endl
-
-    show "Stock actualizado" endl
-    return 1 endl
-!
-
-
-| Función para procesar venta
-gift float procesarVenta ¿int id_producto, int cantidad, float precio_unitario? ¡
-    local bool stock_ok = verificarStock ¿id_producto, cantidad? endl
-
-    decide of
-    ¿stock_ok -> ¡
-        local float subtotal = precio_unitario * cantidad endl
-        local float total = calcularPrecioFinal ¿subtotal? endl
-
-        total_ventas = total_ventas + cantidad endl
-        actualizarStock ¿id_producto, cantidad? endl
-
-        show "Venta procesada exitosamente" endl
-        show total endl
-        return total endl
-    !?
-    ¿else -> ¡
-        show "No se pudo procesar la venta" endl
         return 0.0 endl
     !?
     end decide endl
 !
 
 
-| Función para mostrar reporte
-gift int mostrarReporte ¿? ¡
-    show "=== REPORTE DE VENTAS ===" endl
-    show total_ventas endl
-
-    local float promedio_precio = 25.50 endl
-    local float ventas_totales = total_ventas * promedio_precio endl
-    local float ventas_finales =
-        calcularPrecioFinal ¿ventas_totales? endl
-
-    show ventas_finales endl
-
-    local int meta_ventas = 100 endl
-    local bool meta_cumplida = total_ventas >= meta_ventas endl
-
-    decide of
-    ¿meta_cumplida -> ¡
-        show "Meta cumplida" endl
-    !?
-    ¿else -> ¡
-        show meta_ventas - total_ventas endl
-    !?
-    end decide endl
-
-    return 1 endl
-!
-
-
-| Función para inicializar sistema
-gift int inicializarSistema ¿? ¡
-    categorias¡0, 0! = 'J' endl
-    categorias¡0, 1! = 'U' endl
-    categorias¡0, 2! = 'G' endl
-    categorias¡0, 3! = 'U' endl
-    categorias¡0, 4! = 'E' endl
-    categorias¡0, 5! = 'T' endl
-    categorias¡0, 6! = 'E' endl
-    categorias¡0, 7! = 'S' endl
-
-    for i = 0 to 1 ¡
-        for j = 0 to 4 ¡
-            stock_productos¡i,j! = 50 endl
-        !
-    ! endl
-
-    show "Sistema inicializado" endl
-    return 1 endl
-!
-
-
-| Procedimiento principal
-coal navidad ¿? ¡
-    inicializarSistema ¿? endl
-
-    local int ventas_realizadas = 0 endl
-    local float ingresos_totales = 0.0 endl
+| ---------- función booleana ----------
+gift bool funcionB ¿? ¡
+    local int i = 0 endl
 
     loop
-        local int opcion endl
-        get opcion endl
-
-        decide of
-        ¿opcion == 1 -> ¡
-            local int id_producto endl
-            local int cantidad endl
-            local float precio endl
-
-            get id_producto endl
-            get cantidad endl
-            get precio endl
-
-            local float total_venta =
-                procesarVenta ¿id_producto, cantidad, precio? endl
-
-            decide of
-            ¿total_venta > 0.0 -> ¡
-                ingresos_totales = ingresos_totales + total_venta endl
-                ++ventas_realizadas endl
-            !?
-            end decide endl
-        !?
-        ¿opcion == 2 -> ¡
-            mostrarReporte ¿? endl
-        !?
-        ¿opcion == 3 -> ¡
-            exit when true endl
-        !?
-        end decide endl
+        ++i endl
+        exit when i > 3 endl
     end loop endl
 
-    local bool buen_dia =
-        ¿ventas_realizadas > 10? @ ¿ingresos_totales > 500.0? endl
+    return true endl
+!
+
+
+| ---------- procedimiento principal ----------
+coal navidad ¿? ¡
+
+    local int i endl
+    local float f = 1.5 endl
+    local bool b endl
+
+    get i endl
+    get f endl
+
+    g_matriz¡0,0! = i % 2 endl
+    g_matriz¡1,1! = i // 2 endl
+
+    local float r = funcionA ¿i, f? endl
+    b = funcionB ¿? endl
+
+    for i = 0 to 2 ¡
+        show i endl
+        break endl
+    ! endl
 
     decide of
-    ¿buen_dia -> ¡
-        return 0 endl
+    ¿¿i < 10? @ b -> ¡
+        show r endl
     !?
     ¿else -> ¡
-        return 1 endl
+        show g_string endl
     !?
     end decide endl
+
+    return 0 endl
 !

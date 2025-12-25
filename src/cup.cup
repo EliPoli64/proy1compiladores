@@ -44,33 +44,3 @@ statement ::= expression ENDL
             | RETURN expression ENDL
             | BREAK ENDL
             ;
-
-expression ::= expression PLUS expression
-             | expression MINUS expression
-             | expression TIMES expression
-             | expression DIV_INT expression
-             | expression DIV_FLOAT expression
-             | expression MOD expression
-             | expression POW expression
-             | expression AND expression
-             | expression OR expression
-             | NOT expression
-             | expression EQ expression
-             | expression NE expression
-             | expression LT expression
-             | expression LE expression
-             | expression GT expression
-             | expression GE expression
-             | MINUS expression
-             | INC expression
-             | DEC expression
-             | LPAREN expression RPAREN
-             | LBRACKET expression COMMA expression RBRACKET
-             | INTEGER_LITERAL
-             | FLOAT_LITERAL
-             | BOOLEAN_LITERAL
-             | CHAR_LITERAL
-             | STRING_LITERAL
-             | IDENTIFIER
-             | IDENTIFIER ASSIGN expression
-             ;
