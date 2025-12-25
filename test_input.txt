@@ -24,14 +24,14 @@ gift bool verificarStock ¿int id_producto, int cantidad? ¡
     local int stock_actual = stock_productos¡fila, columna! endl
 
     decide of
-    (stock_actual >= cantidad -> ¡
+    ¿stock_actual >= cantidad -> ¡
         show "Stock suficiente" endl
         return true endl
-    !)
-    (else -> ¡
+    !?
+    ¿else -> ¡
         show "Stock insuficiente" endl
         return false endl
-    !)
+    !?
     end decide endl
 !
 
@@ -54,7 +54,7 @@ gift float procesarVenta ¿int id_producto, int cantidad, float precio_unitario?
     local bool stock_ok = verificarStock ¿id_producto, cantidad? endl
 
     decide of
-    (stock_ok -> ¡
+    ¿stock_ok -> ¡
         local float subtotal = precio_unitario * cantidad endl
         local float total = calcularPrecioFinal ¿subtotal? endl
 
@@ -64,11 +64,11 @@ gift float procesarVenta ¿int id_producto, int cantidad, float precio_unitario?
         show "Venta procesada exitosamente" endl
         show total endl
         return total endl
-    !)
-    (else -> ¡
+    !?
+    ¿else -> ¡
         show "No se pudo procesar la venta" endl
         return 0.0 endl
-    !)
+    !?
     end decide endl
 !
 
@@ -89,12 +89,12 @@ gift int mostrarReporte ¿? ¡
     local bool meta_cumplida = total_ventas >= meta_ventas endl
 
     decide of
-    (meta_cumplida -> ¡
+    ¿meta_cumplida -> ¡
         show "Meta cumplida" endl
-    !)
-    (else -> ¡
+    !?
+    ¿else -> ¡
         show meta_ventas - total_ventas endl
-    !)
+    !?
     end decide endl
 
     return 1 endl
@@ -135,7 +135,7 @@ coal navidad ¿? ¡
         get opcion endl
 
         decide of
-        (opcion == 1 -> ¡
+        ¿opcion == 1 -> ¡
             local int id_producto endl
             local int cantidad endl
             local float precio endl
@@ -148,18 +148,18 @@ coal navidad ¿? ¡
                 procesarVenta ¿id_producto, cantidad, precio? endl
 
             decide of
-            (total_venta > 0.0 -> ¡
+            ¿total_venta > 0.0 -> ¡
                 ingresos_totales = ingresos_totales + total_venta endl
                 ++ventas_realizadas endl
-            !)
+            !?
             end decide endl
-        !)
-        (opcion == 2 -> ¡
+        !?
+        ¿opcion == 2 -> ¡
             mostrarReporte ¿? endl
-        !)
-        (opcion == 3 -> ¡
+        !?
+        ¿opcion == 3 -> ¡
             exit when true endl
-        !)
+        !?
         end decide endl
     end loop endl
 
@@ -167,11 +167,11 @@ coal navidad ¿? ¡
         ¿ventas_realizadas > 10? @ ¿ingresos_totales > 500.0? endl
 
     decide of
-    (buen_dia -> ¡
+    ¿buen_dia -> ¡
         return 0 endl
-    !)
-    (else -> ¡
+    !?
+    ¿else -> ¡
         return 1 endl
-    !)
+    !?
     end decide endl
 !

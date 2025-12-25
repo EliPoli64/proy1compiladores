@@ -33,8 +33,7 @@ java -jar lib/java-cup-11b.jar -destdir src -parser parser -symbols sym src/cup.
 Compila el código fuente y empaqueta todo en un .jar:
 
 ```powershell
-# Crea el directorio bin si no existe (opcional si ya existe)
-mkdir bin -ErrorAction SilentlyContinue
+mkdir bin
 
 javac -d bin -cp "lib/*" src/*.java
 jar cvfm proy1compiladores.jar manifest.txt -C bin .
