@@ -36,7 +36,10 @@ Compila el código fuente y empaqueta todo en un .jar:
 mkdir bin
 
 javac -d bin -cp "lib/*" src/*.java
+# Si jar está en el path del sistema:
 jar cvfm proy1compiladores.jar manifest.txt -C bin .
+# Si jar no está en el path del sistema, se puede usar esto en Windows:
+"C:\Program Files\Java\jdk-21\bin\jar.exe" cfm proy1compiladores.jar manifest.txt -C bin .
 ```
 
 ## Instrucciones de Ejecución
